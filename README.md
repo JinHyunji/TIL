@@ -4,9 +4,7 @@
 
 ## 목차
 ### Java
-
 ### Algorithm
-1. [Array](#)
 ### Web
 ### Spring
 ### Database 
