@@ -6,7 +6,8 @@
 - 처리 및 데이터 쿼리를 효율적으로 수행하기 위해 일련의 테이블에서 행과 열로 모델링
 - 데이터를 작성 및 쿼리에 SQL을 사용
 
-<hr>
+<br>
+<br>
 
 ### 데이터베이스 유형
 - 관계형 데이터베이스
@@ -21,7 +22,9 @@
 - 문서/JSON 데이터베이스
 - 자율 운영 데이터베이스
 
-<hr>
+
+<br>
+<br>
 
 ### SQL(Structured Query Language) 정의
 - 데이터를 쿼리, 조작 및 정의하고 액세스 제어를 제공하기 위해 거의 모든 관계형 데이터베이스에서 사용하는 프로그래밍 언어
@@ -31,7 +34,9 @@
 
 ![img](https://hongong.hanbit.co.kr/wp-content/uploads/2021/11/DBMS-%EC%A0%9C%ED%92%88.png)
 
-<hr>
+
+<br>
+<br>
 
 ### DBMS (Database Management System)
 - 데이터베이스 관리 시스템
@@ -47,7 +52,9 @@
     - MariaDB
     - ...
 
-<hr>
+
+<br>
+<br>
 
 ### DBMS의 분류
 - 계층형
@@ -55,7 +62,9 @@
 - 관계형
 - ...
 
-<hr>
+
+<br>
+<br>
 
 ### 계층형 DBMS
 - 처음으로 등장한 DBMS 개념으로 1960년대에 시작
@@ -68,7 +77,9 @@
 
 ![img](https://hongong.hanbit.co.kr/wp-content/uploads/2021/11/%EA%B3%84%EC%B8%B5%ED%98%95DBMS.png)
 
-<hr>
+
+<br>
+<br>
 
 ### 망형 DBMS
 - 계층형 DBMS의 문제점 개선을 위해 1970년대에 등장
@@ -79,7 +90,9 @@
 
 ![img](https://hongong.hanbit.co.kr/wp-content/uploads/2021/11/%EB%A7%9D%ED%98%95DBMS.png)
 
-<hr>
+
+<br>
+<br>
 
 ### 관계형 DMBS
 - Relational DBMS로 RDBMS라고 부름
@@ -90,9 +103,10 @@
 
 ![img](https://hongong.hanbit.co.kr/wp-content/uploads/2021/11/sql_table.png)
 
+
+<br>
 <br>
 
-<hr>
 
 ### Reference
 - https://www.oracle.com/kr/database/what-is-database/
