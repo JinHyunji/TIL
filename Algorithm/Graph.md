@@ -123,3 +123,177 @@ public class 그래프_02_인접리스트 {
 
 
 <br>
+<br>
+<br>
+<br>
+
+# 3. 그래프 탐색
+
+## 탐색 기법
+
+- 모든 노드를 빠짐 없이 탐색하는 두 가지 방법 : 완전 탐색
+    1. 깊이 우선 탐색 (Depth First Search, DFS)
+    2. 너비 우선 탐색 (Breadth First Search, BFS)
+
+<br>
+<br>
+<br>
+<br>
+
+# 4. 깊이 우선 탐색 (Depth First Search, DFS)
+
+## DFS 란?
+
+- 깊이 우선 탐색
+- 시작 지점에서 출발하여 한 방향으로 탐색함
+- 진행할 수 없다면 마지막에 만난 지점으로 돌아와 다른 방향 다시 탐색
+- 후입선출(LIFO : Last-In First-Out) 구조의 스택 사용
+- 재귀함수는 System Stack을 활용하므로 간단하게 구현 가능
+
+<br>
+
+## 트리 탐색
+
+### while 문
+1. 루트 노드 → Stack Push
+2. Stack → Empty 가 될 때까지 반복 수행
+    1. 현재 노드 ← Stack pop
+    2. 현재 노드의 모든 자식 → Stack Push
+
+<br>
+
+```Java
+// v : 루트 노드
+	DFS(v) {
+		stack.push(v);
+		while (not stack.isEmpty) {
+			curr = stack.pop
+			for w in (curr의 모든 자식)
+				stack.push(w)
+		}
+	}
+```
+
+<br>
+
+### 재귀 함수
+    1. 현재 노드(V) 방문
+    2. V의 자식 노드(W)를 차례로 재귀 호출
+
+<br>
+
+```Java
+// v : 루트 노드
+	DFS(v) {
+		v 방문;
+		for w in (v의 모든 자식) {
+			DFS(w);
+		}
+	}
+```
+
+<br>
+
+## 그래프 탐색 (재귀 함수)
+
+<br>
+
+```java
+// G : 그래프, visited : 방문 배열
+	DFS(v) {
+		visited[v] <- true // v 방문 설정
+		
+		for each all w in adjacency(G, v);
+			if visited[w] != true
+				DFS(w)
+	}
+```
+
+<br>
+
+## 미로 찾기
+
+<br>
+
+## 2차원 배열 탐색 방법 (재귀 함수)
+
+<br>
+
+```java
+// arr : 2차원 배열, visited : 방문 배열
+	DFS(r, c) {
+		visited[r][c] <- true // v 방문 설정
+		for (r, c)를 기준으로 4방향 탐색
+			if 다음 좌표는 이동 가능한 것인지 체크
+				DFS(nr, nc)
+	}
+```
+
+<br>
+<br>
+<br>
+<br>
+
+# 5. 너비 우선 탐색 (Breadth First Search, BFS)
+
+## BFS 란?
+
+- 너비 우선 탐색
+- 시작 지점에 인접한 순으로 탐색을 시작함
+- 인접한 지점을 모두 방문하였다면 다음으로 인접한 지점을 방문함
+- 선입선출(FIFO : First-In First-Out) 구조의 Queue 자료구조를 사용
+- 너비 우선 탐색은 인접한 지점부터 방문을 하므로 시작 지점과 끝 지점이 주어졌을 때 최단 길이를 구할 수 있음
+
+<br>
+
+## 트리 탐색
+
+1. 루트 노드 Queue에 삽입
+2. Queue가 공백이 될 때까지 반복 수행
+    1. Queue에서 원소(Curr) 꺼내기
+    2. 해당 원소 방문
+    3. Curr의 자식 노드 Queue에 삽입
+
+<br>
+
+```java
+BFS(v) {
+		Queue 생성;
+		Queue.add(v);
+		while (!Queue.isEmpty()) {
+			curr <- Queue.deq();
+			curr 방문
+			for w (curr의 모든 자식 노드)
+				Queue.add(w);
+		}
+	}
+```
+
+<br>
+
+## 그래프 탐색
+
+<br>
+
+```java
+BFS(G, v) { // 그래프 G, 탐색 시작점 v
+		큐 생성
+		시작점 v를 큐에 삽입
+		점 v를 방문한 것으로 표시
+		while 큐가 비어있지 않은 경우
+			t <- 큐의 첫 번째 원소 반환
+			for t와 연결된 모든 선에 대해
+				u <- t의 이웃점
+				u가 방문되지 않은 곳이면,
+				u를 큐에 넣고 방문한 것으로 표시
+	}
+```
+
+<br>
+
+## 미로 탈출 길이
+
+- 최단 길이 구하는 방법
+    1. 2차원 배열을 만들어 직접 길이를 저장한다.
+    2. 큐에 넣을 때 같이 넣어 저장한다. (클래스 멤버 변수로 함께 저장)
+    3. 길이를 저장하는 변수를 생성하여 이를 활용한다. (Queue size를 묶어 같은 레벨끼리 처리)
