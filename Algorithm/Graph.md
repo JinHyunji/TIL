@@ -136,13 +136,10 @@ public class 그래프_02_인접리스트 {
     2. 너비 우선 탐색 (Breadth First Search, BFS)
 
 <br>
-<br>
-<br>
-<br>
 
-# 4. 깊이 우선 탐색 (Depth First Search, DFS)
+## 깊이 우선 탐색 (Depth First Search, DFS)
 
-## DFS 란?
+### DFS 란?
 
 - 깊이 우선 탐색
 - 시작 지점에서 출발하여 한 방향으로 탐색함
@@ -152,9 +149,9 @@ public class 그래프_02_인접리스트 {
 
 <br>
 
-## 트리 탐색
+### 트리 탐색
 
-### while 문
+- while 문
 1. 루트 노드 → Stack Push
 2. Stack → Empty 가 될 때까지 반복 수행
     1. 현재 노드 ← Stack pop
@@ -176,7 +173,7 @@ DFS(v) {
 
 <br>
 
-### 재귀 함수
+- 재귀 함수
     1. 현재 노드(V) 방문
     2. V의 자식 노드(W)를 차례로 재귀 호출
 
@@ -194,7 +191,7 @@ DFS(v) {
 
 <br>
 
-## 그래프 탐색 (재귀 함수)
+### 그래프 탐색 (재귀 함수)
 
 <br>
 
@@ -212,7 +209,7 @@ DFS(v) {
 
 <br>
 
-## 2차원 배열 탐색 방법 (재귀 함수)
+### 2차원 배열 탐색 방법 (재귀 함수)
 
 <br>
 
@@ -282,13 +279,11 @@ public class 그래프탐색_01_DFS {
 ```
 
 <br>
-<br>
-<br>
-<br>
 
-# 5. 너비 우선 탐색 (Breadth First Search, BFS)
 
-## BFS 란?
+## 너비 우선 탐색 (Breadth First Search, BFS)
+
+### BFS 란?
 
 - 너비 우선 탐색
 - 시작 지점에 인접한 순으로 탐색을 시작함
@@ -298,7 +293,7 @@ public class 그래프탐색_01_DFS {
 
 <br>
 
-## 트리 탐색
+### 트리 탐색
 
 1. 루트 노드 Queue에 삽입
 2. Queue가 공백이 될 때까지 반복 수행
@@ -323,7 +318,7 @@ BFS(v) {
 
 <br>
 
-## 그래프 탐색
+### 그래프 탐색
 
 <br>
 
@@ -410,7 +405,7 @@ public class 그래프탐색_02_BFS {
 <br>
 
 
-## 미로 탈출 길이
+### 미로 탈출 길이
 
 - 최단 길이 구하는 방법
     1. 2차원 배열을 만들어 직접 길이를 저장한다.
@@ -424,7 +419,7 @@ public class 그래프탐색_02_BFS {
 <br>
 
 
-# 6. 그래프 비용
+# 4. 그래프 비용
 
 ## 서로소 집합 (Disjoint-sets)
 

@@ -14,6 +14,11 @@
 
 ### [Algorithm](/Algorithm/)
 - [Graph](/Algorithm/Graph.md)
+  - [1. 그래프 기본](/Algorithm/Graph.md#1-그래프-기본)
+  - [2. 그래프 표현](/Algorithm/Graph.md#2-그래프-표현)
+  - [3. 그래프 탐색](/Algorithm/Graph.md#3-그래프-탐색)
+  - [4. 그래프 비용](/Algorithm/Graph.md#6-그래프-비용)
+
 
 <br>
 
