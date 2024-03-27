@@ -162,16 +162,16 @@ public class 그래프_02_인접리스트 {
 
 <br>
 
-```Java
+```code
 // v : 루트 노드
-	DFS(v) {
-		stack.push(v);
-		while (not stack.isEmpty) {
-			curr = stack.pop
-			for w in (curr의 모든 자식)
-				stack.push(w)
-		}
+DFS(v) {
+	stack.push(v);
+	while (not stack.isEmpty) {
+		curr = stack.pop
+		for w in (curr의 모든 자식)
+			stack.push(w)
 	}
+}
 ```
 
 <br>
@@ -182,14 +182,14 @@ public class 그래프_02_인접리스트 {
 
 <br>
 
-```Java
+```code
 // v : 루트 노드
-	DFS(v) {
-		v 방문;
-		for w in (v의 모든 자식) {
-			DFS(w);
-		}
+DFS(v) {
+	v 방문;
+	for w in (v의 모든 자식) {
+		DFS(w);
 	}
+}
 ```
 
 <br>
@@ -198,15 +198,15 @@ public class 그래프_02_인접리스트 {
 
 <br>
 
-```java
+```code
 // G : 그래프, visited : 방문 배열
-	DFS(v) {
-		visited[v] <- true // v 방문 설정
-		
-		for each all w in adjacency(G, v);
-			if visited[w] != true
-				DFS(w)
-	}
+DFS(v) {
+	visited[v] <- true // v 방문 설정
+	
+	for each all w in adjacency(G, v);
+		if visited[w] != true
+			DFS(w)
+}
 ```
 
 
@@ -216,14 +216,14 @@ public class 그래프_02_인접리스트 {
 
 <br>
 
-```java
+```Code
 // arr : 2차원 배열, visited : 방문 배열
-	DFS(r, c) {
-		visited[r][c] <- true // v 방문 설정
-		for (r, c)를 기준으로 4방향 탐색
-			if 다음 좌표는 이동 가능한 것인지 체크
-				DFS(nr, nc)
-	}
+DFS(r, c) {
+	visited[r][c] <- true // v 방문 설정
+	for (r, c)를 기준으로 4방향 탐색
+		if 다음 좌표는 이동 가능한 것인지 체크
+			DFS(nr, nc)
+}
 ```
 
 <br>
@@ -308,17 +308,17 @@ public class 그래프탐색_01_DFS {
 
 <br>
 
-```java
+```code
 BFS(v) {
-		Queue 생성;
-		Queue.add(v);
-		while (!Queue.isEmpty()) {
-			curr <- Queue.deq();
-			curr 방문
-			for w (curr의 모든 자식 노드)
-				Queue.add(w);
-		}
+	Queue 생성;
+	Queue.add(v);
+	while (!Queue.isEmpty()) {
+		curr <- Queue.deq();
+		curr 방문
+		for w (curr의 모든 자식 노드)
+			Queue.add(w);
 	}
+}
 ```
 
 <br>
@@ -327,18 +327,18 @@ BFS(v) {
 
 <br>
 
-```java
+```code
 BFS(G, v) { // 그래프 G, 탐색 시작점 v
-		큐 생성
-		시작점 v를 큐에 삽입
-		점 v를 방문한 것으로 표시
-		while 큐가 비어있지 않은 경우
-			t <- 큐의 첫 번째 원소 반환
-			for t와 연결된 모든 선에 대해
-				u <- t의 이웃점
-				u가 방문되지 않은 곳이면,
-				u를 큐에 넣고 방문한 것으로 표시
-	}
+	큐 생성
+	시작점 v를 큐에 삽입
+	점 v를 방문한 것으로 표시
+	while 큐가 비어있지 않은 경우
+		t <- 큐의 첫 번째 원소 반환
+		for t와 연결된 모든 선에 대해
+			u <- t의 이웃점
+			u가 방문되지 않은 곳이면,
+			u를 큐에 넣고 방문한 것으로 표시
+}
 ```
 
 <br>
@@ -416,3 +416,120 @@ public class 그래프탐색_02_BFS {
     1. 2차원 배열을 만들어 직접 길이를 저장한다.
     2. 큐에 넣을 때 같이 넣어 저장한다. (클래스 멤버 변수로 함께 저장)
     3. 길이를 저장하는 변수를 생성하여 이를 활용한다. (Queue size를 묶어 같은 레벨끼리 처리)
+
+
+<br>
+<br>
+<br>
+<br>
+
+
+# 6. 그래프 비용
+
+## 서로소 집합 (Disjoint-sets)
+
+### 상호 배타 집합
+
+- 중복 포함된 원소가 없는 집합 → 교집합이 없음
+- 각 집합은 대표자를 통해 구분
+
+<br>
+
+### 상호 배타 집합 표현 방법
+
+- 연결 리스트
+- 트리
+
+<br>
+
+### 상호 배타 집합 연산
+
+- Make-Set(x)
+    - 유일한 멤버 x를 포함하는 새로운 집합을 생성하는 연산
+    - 반복문을 이용하여 간소화
+
+- Fine-Set(x)
+    - x를 포함하는 집합을 찾는 연산
+    - 특정 노드에서 루트 노드까지의 경로를 찾아 가면서 노드 부모의 정보를 갱신
+
+- Union(x, y) : x와 y를 포함하는 두 집합을 통합하는 연산
+
+- 연산의 효율을 높이는 방법
+    - Rank를 이용한 Union
+        - 각 노드는 자신을 루트로 하는 subtree의 높이를 랭크(rank)라는 이름으로 저장
+        - 두 집합을 Union할 때 rank가 낮은 집합을 높은 집합에 붙인다.
+        - 두 대표자의 rank가 다를 경우 : rank가 높은 쪽으로 붙이기
+        - 두 대표자의 rank가 같을 경우 : 아무 쪽이나 붙여도 된다.
+    - Path Compression
+        - Find-Set을 행하는 과정에서 만나는 모든 노드들이 직접 대표를 가리키도록 수정한다.
+
+<br>
+
+
+### 상호 배타 집합 표현 - 연결 리스트
+
+- 같은 집합의 원소들은 하나의 연결리스트로 관리
+- 연결리스트의 맨 앞의 원소를 집합의 대표자로 결정
+- 각 원소는 집합의 대표 원소를 가리키는 링크를 갖는다.
+
+<br>
+
+
+### 상호 배타 집합 표현 - 트리
+
+- 하나의 집합을 하나의 트리로 표현한다.
+- 자식 노드가 부모 노드를 가리키며 루트 노드가 대표자가 된다.
+
+<br>
+
+
+## 최소 비용 신장 트리 (Minimum Spanning Tree, MST)
+
+### 신장 트리
+
+- 그래프의 모든 정점과 간선의 부분 집합으로 구성되는 트리
+
+<br>
+
+### 최소 신장 트리
+
+- 신장 트리 중에서 사용된 간선들의 가중치 합이 최소인 트리
+- 무 방향 가중치 그래프
+- N개의 정점을 가지는 그래프에 대해 반드시 (N-1)개의 간선을 사용
+- 사이클을 포함 X
+
+<br>
+
+### 왜 사용하는가?
+
+- 도로망, 통신망, 유통망 등 여러 분야에서 비용을 최소로 해야 이익을 볼 수 있다.
+- 대표적인 알고리즘으로 크루스칼, 프림이 있음
+
+<br>
+
+## 크루스칼 알고리즘
+
+### 크루스칼 알고리즘
+
+1. 최초 모든 간선을 가중치에 따라 오름차순으로 정렬
+2. 가중치가 가장 낮은 간선부터 선택하면서 트리를 증가시킴 → 사이클이 존재하면 다음으로 가중치가 낮은 간선 선택
+3. N-1개의 간선이 선택될 때까지 2 반복
+
+<br>
+
+### 크루스칼 알고리즘 의사코드
+
+```Code
+MST-KRUSKAL(G)
+	A <- 0			// 0 : 공집합
+	FOR v in G.V	// G.V : 그래프의 정점 집합
+		Make-Set(v)	// G.E : 그래프의 간선 집합
+		
+	G.E에 포함된 간선들을 가중치 w에 의해 정렬
+		
+	FOR 가중치가 가장 낮은 간선 (u, v) ∈ G.E 선택(n-1개)
+		IF Find-Set(u) ≠ Find-Set(V)
+			A <- A ∪ {(u, v)}
+			Union(u, v);
+	RETURN A
+```
