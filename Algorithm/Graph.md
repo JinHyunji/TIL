@@ -528,3 +528,421 @@ MST-KRUSKAL(G)
 			Union(u, v);
 	RETURN A
 ```
+
+<br>
+
+## 프림 알고리즘
+
+### Prim 알고리즘
+
+- 하나의 정점에서 연결된 간선들 중에 하나씩 선택하면서 MST를 만들어가는 방식
+1. 임의 정점을 선택하여 시작
+2. 선택한 정점과 인접하는 정점들 중의 최소 비용의 간선이 존재하는 정점을 선택
+3. 모든 정점이 선택될 때까지 2. 과정을 반복
+- 서로소인 2개의 집합 정보를 유지
+    - 트리 정점 : MST를 만들기 위해 선택된 정점들
+    - 비트리 정점들 : 선택되지 않은 정점들
+
+<br>
+
+### 프림 알고리즘 코드
+
+<br>
+
+- 반복문으로 구현
+
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class 프림_반복문 {
+
+	static final int INF = Integer.MAX_VALUE; // 이주 큰 값으로 초기화
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(input);
+		
+		int V = sc.nextInt(); // 0부터 시작
+		int E = sc.nextInt(); // 간선의 개수
+		
+		// 인접 행렬
+		int[][] adjArr = new int[V][V];
+		
+		for (int i = 0; i < E; i++) {
+			int A = sc.nextInt();
+			int B = sc.nextInt();
+			int W = sc.nextInt();
+			
+			// 무향 그래프
+			adjArr[A][B] = adjArr[B][A] = W;
+		} // 입력 끝
+		
+		// 방문 처리를 위해 배열 선언
+		boolean[] visited = new boolean[V];
+		int[] p = new int[V]; // 내가 어디서 왔는지 확인 -> 문제에 따라 필요 유무 다름
+		int[] dist = new int[V]; // 가장 적은 비용을 저장하기 위한 배열
+		
+		// dist 초기화
+		for (int i = 0; i < V; i++) {
+			dist[i] = INF;
+			p[i] = -1;
+		}
+//		Arrays.fill(dist, INF); // 위의 반복문과 같은 기능을 하는 메서드
+		
+		// 임의의 한 점을 선택해서 돌려야 함
+		dist[0] = 0; // 0번 정점부터 시작
+		
+		int ans = 0;
+		
+		// 정점을 선택하는 사이클 :
+		// 정점의 개수만큼 반복해도 상관없지만
+		// 성능 향상을 위해 V-1 (가지치기)
+		for (int i = 0; i < V; i++) {
+			int min = INF;
+			int idx = -1;
+			
+			// 아직 안 뽑힌 정점들 중 가장 작은 값을 뽑음
+			for ( int j = 0; j < V; j++) {
+				if (!visited[j] && dist[j] < min) {
+					min = dist[j];
+					idx = j; 
+				}
+			} // 해당 반복문 종료 시 idx는 가장 작은 값을 가지고 있고 방문하지 않은 정점이 선택됨
+			
+			visited[idx] = true; // 선택한 정점은 방문 처리
+			
+			// 선택한 정점과 인접한 정점들 중 갱신할 수 있으면 갱신
+			for (int j = 0; j < V; j++) {
+				if (!visited[j] && adjArr[idx][j] != 0 && dist[j] > adjArr[idx][j]) {
+					dist[j] = adjArr[idx][j];
+					p[j] = idx;
+				}
+			}
+		}
+		
+		for (int i = 0; i < V; i++) {
+			ans += dist[i];
+		}
+		
+		System.out.println(Arrays.toString(dist));
+		System.out.println(Arrays.toString(p));
+		System.out.println(ans);
+	}
+	
+	static String input = "7 11\r\n" + "0 1 32\r\n" + "0 2 31\r \n " + "0 5 60\r\n" + "0 6 51\r\n" + "1 2 21\r\n"
+			+ "2 4 46\r\n" + "2 6 25\r\n" + "3 4 34\r\n" + "3 5 18\r\n" + "4 5 40\r\n" + "4 6 51\r\n" + "";
+}
+```
+
+<br>
+
+- 우선순위 큐로 구현
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class 프림_우선순위큐 {
+
+	static final int INF = Integer.MAX_VALUE; // 이주 큰 값으로 초기화
+	
+	static class Edge implements Comparable<Edge> {
+		int st, ed, w; // 시작과 끝 노드 (가중치도 추가 가능)
+
+		public Edge(int st, int ed, int w) {
+			this.st = st;
+			this.ed = ed;
+			this.w = w;
+		}
+
+		@Override
+		public int compareTo(Edge o) {
+			return Integer.compare(this.w,  o.w);
+		}		
+	}
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(input);
+		
+		int V = sc.nextInt(); // 0부터 시작
+		int E = sc.nextInt(); // 간선의 개수
+		
+		// 인접 행렬
+		List<Edge>[] adjList = new ArrayList[V];
+		
+		for (int i = 0; i < V; i++) {
+			adjList[i] = new ArrayList<>();
+		}
+		
+		for (int i = 0; i < E; i++) {
+			int A = sc.nextInt();
+			int B = sc.nextInt();
+			int W = sc.nextInt();
+			
+			// 무향 그래프
+			adjList[A].add(new Edge(A, B, W));
+			adjList[B].add(new Edge(B, A, W));
+			
+		} // 입력 끝
+		
+		// 방문 처리를 위해 배열 선언
+		boolean[] visited = new boolean[V];
+		
+		PriorityQueue<Edge> pq = new PriorityQueue<>();
+		
+		visited[0] = true; // 0번 정점은 시작
+		
+		// 0번 정점과 인접한 정점들을 전부 넣기
+//		for (int i = 0; i < adjList[0].size(); i++) {
+//			pq.add(adjList[0].get(i));
+//		}
+//		for (Edge e : adjList[0]) {
+//			pq.add(e);
+//		}
+		pq.addAll(adjList[0]);
+		
+		int pick = 1; // 현재 확보한 정점의 개수
+		int ans = 0; // 비용도 0
+		
+		while (pick != V) {
+			Edge e = pq.poll();
+			if (visited[e.ed]) continue; // 이미 해당 정점이 방문한 정점이라면
+			
+			ans += e.w; // 해당 간선이 가지고 있는 가중치를 더함
+			visited[e.ed] = true;
+			pick++;
+			
+			// 반복문을 돌면서 갱신할 수 있는거 전부 갱신
+			pq.addAll(adjList[e.ed]);
+		}
+		
+		System.out.println(ans);
+	}
+	
+	static String input = "7 11\r\n" + "0 1 32\r\n" + "0 2 31\r \n " + "0 5 60\r\n" + "0 6 51\r\n" + "1 2 21\r\n"
+			+ "2 4 46\r\n" + "2 6 25\r\n" + "3 4 34\r\n" + "3 5 18\r\n" + "4 5 40\r\n" + "4 6 51\r\n" + "";
+}
+```
+
+<br>
+
+## 최단 경로
+
+### 최단 경로 정의
+
+- 가중치가 있는 그래프에서 두 정점 사이의 경로들 중 간선의 가중치의 합이 최소인 경로
+
+<br>
+
+### 하나의 시작 정점에서 끝 정점까지의 최단 경로
+
+- 다익스트라 알고리즘 (음의 가중치 허용 X)
+- 벨만-포트 알고리즘 (음의 가중치 허용 O)
+
+<br>
+
+### 모든 정점들에 대한 최단 경로
+
+- 플로이드-워셜 알고리즘
+
+<br>
+
+## Dijkstra 알고리즘
+
+### 다익스트라 알고리즘
+
+- 시작 정점에서 거리가 최소인 정점을 선택해 나가면서 최단 경로를 구하는 방식
+- 탐욕 알고리즘 중 하나이고, 프림 알고리즘과 유사함
+- 정점 A에서 정점 B까지의 최단 경로 (A → X + X → B)
+
+<br>
+
+### 다익스트라 알고리즘 동작 과정
+
+1. 시작 정점 입력
+2. 거리 저장 배열을 ∞로 초기화
+3. 시작점에서 갈 수 있는 곳의 값 갱신
+4. 아직 방문하지 않은 점들이 가지고 있는 거리 값과 현재 정점에서 방문하지 않은 정점까지의 가중치의 합이 작다면 갱신
+5. 모든 정점을 방문할 때까지 반복
+
+<br>
+
+### 다익스트라 코드
+
+<br>
+
+- 반복문으로 구현
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class 다익스트라_반복문 {
+
+	static class Node {
+		int v, w;
+
+		public Node(int v, int w) {
+			this.v = v;
+			this.w = w;
+		}
+
+	}
+
+	static final int INF = 987654321;
+	static int V, E;
+	static List<Node>[] adjList;
+	static int[] dist;
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(input);
+		
+		V = sc.nextInt();
+		E = sc.nextInt();
+		
+		adjList = new ArrayList[V];
+		
+		for (int i = 0; i < V; i++) {
+			adjList[i] = new ArrayList<>();
+		}
+		
+		dist = new int[V];
+		Arrays.fill(dist, INF);
+		
+		for (int i = 0; i < E; i++) {
+			// 시작 정점, 도착 정점, 가중치 순으로 입력
+			adjList[sc.nextInt()].add(new Node(sc.nextInt(), sc.nextInt()));
+		}
+		
+		dijkstra(0);
+		
+		System.out.println(Arrays.toString(dist));
+		
+		
+	}
+
+	private static void dijkstra(int start) {
+		boolean[] visited = new boolean[V]; // 방문처리
+		
+		dist[start] = 0; // 시작 노드까지의 거리는 0으로 초기화
+		
+		// 모든 정점을 다 돌 때까지 반복
+		for (int i = 0; i < V-1; i++) {
+			int min = INF;
+			int idx = -1;
+			
+			for (int j = 0; j < V; j++) {
+				if (!visited[j] && min > dist[j]) {
+					min = dist[j];
+					idx = j;
+				}
+			} // idx는 방문하지 않았으면서 시작 정점으로부터 해당 idx까지의 거리가 최소인 정점
+			
+			if (idx == -1) break; // 시작 정점으로부터 갈 수 있는 정점들은 다 방문했다는 뜻
+			
+			visited[idx] = true; // 선언
+			
+			// 아래 방법이 더 간단함
+			for (Node node : adjList[idx]) {
+				if (!visited[node.v] && dist[node.v] > dist[idx] + node.w) {
+					dist[node.v] = dist[idx] + node.w;
+				}
+			}
+
+		}
+	}
+
+	static String input = "6 11\r\n" + "0 1 4\r\n" + "0 2 2\r\n" + "0 5 25\r\n" + "1 3 8\r\n" + "1 4 7\r\n"
+			+ "2 1 1\r\n" + "2 4 4\r\n" + "3 0 3\r\n" + "3 5 6\r\n" + "4 3 5\r\n" + "4 5 12\r\n" + "";
+}
+```
+
+<br>
+
+- 우선순위 큐로 구현
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class 다익스트라_우선순위큐 {
+
+	static class Node implements Comparable<Node> {
+		int v, w;
+
+		public Node(int v, int w) {
+			this.v = v;
+			this.w = w;
+		}
+
+		@Override
+		public int compareTo(Node o) {
+			return Integer.compare(this.w, o.w);
+		}
+
+	}
+
+	static final int INF = 987654321;
+	static int V, E;
+	static List<Node>[] adjList;
+	static int[] dist;
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(input);
+		
+		V = sc.nextInt();
+		E = sc.nextInt();
+		
+		adjList = new ArrayList[V];
+		
+		for (int i = 0; i < V; i++) {
+			adjList[i] = new ArrayList<>();
+		}
+		
+		dist = new int[V];
+		Arrays.fill(dist, INF);
+		
+		for (int i = 0; i < E; i++) {
+			// 시작 정점, 도착 정점, 가중치 순으로 입력
+			adjList[sc.nextInt()].add(new Node(sc.nextInt(), sc.nextInt()));
+		}
+		
+		dijkstra(0);
+		
+		System.out.println(Arrays.toString(dist));
+	}
+
+	private static void dijkstra(int start) {
+		PriorityQueue<Node> pq = new PriorityQueue<>();
+		boolean[] visited = new boolean[V]; // 방문처리
+		
+		dist[start] = 0; // 시작 노드까지의 거리는 0으로 초기화
+
+		pq.add(new Node(start, 0));
+
+		while (!pq.isEmpty()) {
+			Node curr = pq.poll();
+			
+			if (visited[curr.v]) continue; // 이미 방문했다면 비용을 알고 있다는 뜻
+			visited[curr.v] = true; // 선택
+			
+			for (Node node : adjList[curr.v]) {
+				if (!visited[node.v] && dist[node.v] > dist[curr.v] + node.w) {
+					dist[node.v] = dist[curr.v] + node.w;
+					pq.add(new Node(node.v, dist[node.v]));
+				}
+			}
+		}
+	}
+
+	static String input = "6 11\r\n" + "0 1 4\r\n" + "0 2 2\r\n" + "0 5 25\r\n" + "1 3 8\r\n" + "1 4 7\r\n"
+			+ "2 1 1\r\n" + "2 4 4\r\n" + "3 0 3\r\n" + "3 5 6\r\n" + "4 3 5\r\n" + "4 5 12\r\n" + "";
+}
+```
