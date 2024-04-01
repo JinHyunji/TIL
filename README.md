@@ -8,11 +8,11 @@
 ## 목차
 
 
-### [Java](/Java/)
+### [Java]
 
 <br>
 
-### [Algorithm](/Algorithm/)
+### [Algorithm]
 - [Graph](/Algorithm/Graph.md)
   - [1. 그래프 기본](/Algorithm/Graph.md#1-그래프-기본)
   - [2. 그래프 표현](/Algorithm/Graph.md#2-그래프-표현)
@@ -22,17 +22,17 @@
 
 <br>
 
-### [Web](/Web/)
+### [Web]
 
 <br>
 
-### [Spring](/Spring/)
+### [Spring]
 - [ContextLoaderListener vs DispatcherServlet](Spring/ContextLoaderListener%20vs%20DispatcherServlet.md)
 - [MVC패턴 프로젝트 설정 방법](Spring/MVC패턴%20프로젝트%20설정%20방법.md)
 
 <br>
 
-### [Database](/Database/) 
+### [Database]
 - [Database](Database/Database.md#database)
 
  
