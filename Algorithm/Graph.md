@@ -946,3 +946,187 @@ public class 다익스트라_우선순위큐 {
 			+ "2 1 1\r\n" + "2 4 4\r\n" + "3 0 3\r\n" + "3 5 6\r\n" + "4 3 5\r\n" + "4 5 12\r\n" + "";
 }
 ```
+
+<br>
+<br>
+<br>
+<br>
+
+# 5. 그래프 심화
+
+## 위상 정렬 (Topological Sorting)
+
+### 위상 정렬이란
+- 순서가 있는 작업을 차례로 진행해야 할 때 순서를 결정해주기 위해 사용하는 알고리즘
+- 사이클없는 방향 그래프의 모든 노드를 주어진 방향성에 어긋나지 않게 순서를 나열하는 것
+- 예) 대학 선수과목, 공장의 작업 순서, 요리 순서 등
+
+<br>
+
+### DAG(Directed Acyclic Graph)
+- 유향 비사이클 그래프
+
+<br>
+
+### 진입 차수와 진출 차수
+- 진입 차수 : 특정 노드로 들어오는 간선의 개수
+- 진출 차수 : 특정 노드에서 나가는 간선의 개수
+
+<br>
+
+## 위상 정렬 (Queue로 구현)
+### 위상 정렬 방법 (Queue 사용)
+1. 진입 차수가 0인 모든 노드를 Queue에 삽입
+2. Queue가 공백 상태가 될 때까지 반복 수행
+   1. Queue에서 원소를 꺼내 해당 노드에서 나가는 간선을 그래프에서 제거한다. (연결된 노드의 진입 차수를 감소시킨다.)
+   2. 새롭게 진입 차수가 0이 된 노드를 Queue에 삽입한다.
+3. Queue에서 꺼내지는 순서 (Queue에 들어오는 순서)가 정렬을 수행한 결과
+
+<br>
+
+### 위상 정렬 코드
+```Java
+public class 위상정렬_Queue {
+	public static String[] cook = { "", "재료구매", "양념장만들기", "고기재우기", "고기손질", "제육볶음만들기", "식사", "뒷정리", "채소손질", "밥하기" };
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(input);
+
+		int V = sc.nextInt(); // 정점의 수
+		int E = sc.nextInt(); // 간선의 수 // 방향 있음
+
+		int[][] adj = new int[V + 1][V + 1]; // 정점의 번호가 1번부터 시작
+		int[] degree = new int[V+1]; // 진입 차수 저장
+		
+		for (int i = 0; i < E; i++) {
+			int A = sc.nextInt();
+			int B = sc.nextInt();
+			adj[A][B] = 1; // 가중치가 따로 없기 때문에 1로 표기, 유향이니 반대는 처리 X
+			
+			// 진입 차수를 증가
+			degree[B]++;
+		}
+		
+		Queue<Integer> queue = new LinkedList<>();
+		
+		// 큐로 위상정렬 구현 1단계
+		// 진입차수가 0인 정점들을 넣기
+		for (int i = 1; i <= V; i++) {
+			if (degree[i] == 0) {
+				queue.add(i);
+			}
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		
+		// 큐로 위상 정렬 구현 2단계
+		// 큐가 공백 상태가 될 때까지 돌린다.
+		while (!queue.isEmpty()) {
+			// 2-1. 하나 꺼내서
+			int curr = queue.poll();
+			sb.append(cook[curr] + " -> ");
+			
+			// 2-2. 연결되어 있는 간선을 제거 (말은 제거지만 실제로 제거하진 않음)
+			for (int i = 1; i <= V; i++) {
+				if (adj[curr][i] == 1) {
+					degree[i]--; // 진입 차수를 하나 깎는다.
+//					adj[curr][i] = 0; // 실제로 간선을 삭제해버리는 것
+					
+					// 2-3. 진입차수가 새롭게 0이 되었다면 큐에 넣기
+					if (degree[i] == 0)
+						queue.offer(i);
+				}
+			}
+		}
+		
+		System.out.println(sb);
+	}
+
+	static String input = "9 9\r\n" + "1 4\r\n" + "1 8\r\n" + "2 3\r\n" + "4 3\r\n" + "8 5\r\n" + "3 5\r\n" + "5 6\r\n"
+			+ "9 6\r\n" + "6 7" + "";
+}
+```
+
+<br>
+
+## 위상 정렬 (Stack으로 구현)
+### 위상 정렬 방법 (Stack 사용)
+1. 진입 차수가 0인 모든 노드에서 DFS 탐색 수행
+2. DFS 수행
+   1. 해당 노드를 방문 표시
+   2. 인접하면서 방문하지 않은 노드가 있다면 DFS 재귀 호출
+   3. 함수 리턴 하기 전 Stack에 현재 노드 저장
+3. Stack이 공백 상태가 될 때까지 pop
+- Stack에서 꺼내지는 순서를 뒤집으면 위상 정렬을 수행한 결과이다.
+
+<br>
+
+### 위상 정렬 코드
+```Java
+public class 위상정렬_Stack {
+	public static String[] cook = { "", "재료구매", "양념장만들기", "고기재우기", "고기손질", "제육볶음만들기", "식사", "뒷정리", "채소손질", "밥하기" };
+	static int V, E;
+	static int[][] adj;
+	static int[] degree;
+	static boolean[] visited; // 방문 체크
+	static Stack<Integer> stack; // 할일을 담을 스택
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(input);
+
+		V = sc.nextInt(); // 정점의 수
+		E = sc.nextInt(); // 간선의 수 // 방향 있음
+
+		adj = new int[V + 1][V + 1]; // 정점의 번호가 1번부터 시작
+		degree = new int[V+1]; // 진입 차수 저장
+		visited = new boolean[V+1];
+		stack = new Stack<>();
+		
+		for (int i = 0; i < E; i++) {
+			int A = sc.nextInt();
+			int B = sc.nextInt();
+			adj[A][B] = 1; // 가중치가 따로 없기 때문에 1로 표기, 유향이니 반대는 처리 X
+			
+			// 진입 차수를 증가
+			degree[B]++;
+		}
+		
+		for (int i = 1; i <= V; i++) {
+			// 진입 차수가 0인 정점들을 전부 다 DFS 탐색하겠다.
+			if (degree[i] == 0) 
+				DFS(i);
+		}
+		
+		// 해당 라인이 수행된다는 뜻은 위상 정렬 끝 -> 해당 작업은 stack에 몽땅 들어있음
+		while (!stack.isEmpty()) {
+			System.out.println(cook[stack.pop()]);
+		}
+	}
+	
+	static void DFS(int v) {
+		visited[v] = true; // 방문 체크
+		
+		for (int i = 1; i <= V; i++) {
+			// 인접하고, 방문하지 않은 점이 있다면 방문
+			if (adj[v][i] == 1 && !visited[i]) {
+				DFS(i);
+			}
+		}
+		
+		// 해당 라인이 실행된다는 뜻은 갈 수 있는 곳 전부 다녀왔다
+		stack.add(v); // 할일 목록에 추가
+	}
+	
+
+	static String input = "9 9\r\n" + "1 4\r\n" + "1 8\r\n" + "2 3\r\n" + "4 3\r\n" + "8 5\r\n" + "3 5\r\n" + "5 6\r\n"
+			+ "9 6\r\n" + "6 7" + "";
+}
+```
+
+<br>
+
+## 위상 정렬 특징
+- 모든 정점을 방문하기 전에 Queue가 공백 상태가 되면 사이클이 존재하는 것이다. (사이클이 존재하면 진입 차수가 0이 될 수 없음)
+- 그래프의 유형은 DAG
+- 여러 해답이 존재할 수 있다. (진입 차수가 0인 값이 동시에 생성이 된다면 작성한 코드 방법에 따라 답이 달라진다.)
+- 시간 복잡도 O(V+E)
