@@ -68,8 +68,3 @@
 ```xml
 <mybatis:scan base-package="com.ssafy.board.model.dao"/>
 ```
-
-<br>
-<br>
-
-# Mybatis-Web PJT
