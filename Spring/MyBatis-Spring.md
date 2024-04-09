@@ -1,5 +1,3 @@
-# MyBatis-Spring
-
 ## MyBatis-Spring
 
 - 마이바티스-스프링 연동 모듈은 둘을 간편하게 연동하도록 도와준다.
