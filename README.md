@@ -38,6 +38,7 @@
 ### Spring
 - [ContextLoaderListener vs DispatcherServlet](Spring/ContextLoaderListener%20vs%20DispatcherServlet.md)
 - [MVC패턴 프로젝트 설정 방법](Spring/MVC패턴%20프로젝트%20설정%20방법.md)
+- [Spring DI](Spring/Spring%20DI.md)
 - [MyBatis](/Spring/MyBatis.md)
 - [MyBatis-Spring](/Spring/MyBatis-Spring.md)
 - [Model vs @ModelAttribute](/Spring/Model%20vs%20@ModelAttribute.md)
