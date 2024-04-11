@@ -41,7 +41,7 @@
 - [MyBatis](/Spring/MyBatis.md)
 - [MyBatis-Spring](/Spring/MyBatis-Spring.md)
 - [Model vs @ModelAttribute](/Spring/Model%20vs%20@ModelAttribute.md)
-- [Dynamic SQL & Transaction](/Spring/Dynamic%20SQL%20&%20Transaction)
+- [Dynamic SQL & Transaction](/Spring/Dynamic%20SQL%20&%20Transaction.md)
 
 <br>
 
